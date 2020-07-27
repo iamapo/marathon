@@ -23,7 +23,8 @@ class FileAndroidConfigurationTest {
         null,
         SerialStrategy.AUTOMATIC,
         ScreenRecordConfiguration(),
-        15000L
+        15000L,
+        false
     )
 
     private val env: File = File.createTempFile("foo", "bar")

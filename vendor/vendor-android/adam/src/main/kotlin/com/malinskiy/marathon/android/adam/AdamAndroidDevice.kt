@@ -246,6 +246,10 @@ class AdamAndroidDevice(
         val preparationJob = async(coroutineContext) {
             track.trackDevicePreparing(this@AdamAndroidDevice) {
                 AndroidAppInstaller(configuration).prepareInstallation(this@AdamAndroidDevice)
+                val vendorConfiguration = this@AdamAndroidDevice.configuration
+                if (vendorConfiguration.disableAnimations) {
+                    disableAnimations()
+                }
                 fileManager.removeRemoteDirectory()
                 fileManager.createRemoteDirectory()
                 clearLogcat()

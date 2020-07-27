@@ -2,6 +2,7 @@ package com.malinskiy.marathon.cli.args
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.malinskiy.marathon.android.AndroidConfiguration
+import com.malinskiy.marathon.android.DEFAULT_DISABLE_ANIMATIONS
 import com.malinskiy.marathon.android.DEFAULT_INSTALL_OPTIONS
 import com.malinskiy.marathon.android.DEFAULT_WAIT_FOR_DEVICES_TIMEOUT
 import com.malinskiy.marathon.android.ScreenRecordConfiguration
@@ -26,7 +27,8 @@ data class FileAndroidConfiguration(
     @JsonProperty("installOptions") val installOptions: String?,
     @JsonProperty("serialStrategy") val serialStrategy: SerialStrategy = SerialStrategy.AUTOMATIC,
     @JsonProperty("screenRecordConfiguration") val screenRecordConfiguration: ScreenRecordConfiguration = ScreenRecordConfiguration(),
-    @JsonProperty("waitForDevicesTimeoutMillis") val waitForDevicesTimeoutMillis: Long?
+    @JsonProperty("waitForDevicesTimeoutMillis") val waitForDevicesTimeoutMillis: Long?,
+    @JsonProperty("disableAnimations") val disableAnimations: Boolean
 ) : FileVendorConfiguration {
 
     fun toAndroidConfiguration(environmentAndroidSdk: File?): AndroidConfiguration {
@@ -52,6 +54,7 @@ data class FileAndroidConfiguration(
             serialStrategy = serialStrategy,
             screenRecordConfiguration = screenRecordConfiguration,
             waitForDevicesTimeoutMillis = waitForDevicesTimeoutMillis ?: DEFAULT_WAIT_FOR_DEVICES_TIMEOUT,
+            disableAnimations = disableAnimations,
             implementationModules = implementationModules
         )
     }

@@ -214,11 +214,14 @@ class DdmlibAndroidDevice(
         track.trackDevicePreparing(this) {
             val deferred = async {
                 AndroidAppInstaller(configuration).prepareInstallation(this@DdmlibAndroidDevice)
+                val vendorConfiguration = this@DdmlibAndroidDevice.configuration
+                if (vendorConfiguration.disableAnimations) {
+                    disableAnimations()
+                }
                 fileManager.removeRemoteDirectory()
                 fileManager.createRemoteDirectory()
                 clearLogcat()
                 receiver.addLogCatListener(listener)
-
             }
             deferred.await()
         }

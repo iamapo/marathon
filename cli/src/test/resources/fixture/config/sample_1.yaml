@@ -90,3 +90,4 @@ vendorConfiguration:
       height: 1920
       delayMs: 200
   waitForDevicesTimeoutMillis: 15000
+  disableAnimations: true

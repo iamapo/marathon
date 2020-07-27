@@ -146,6 +146,21 @@ abstract class BaseAndroidDevice(
 
     protected suspend fun clearLogcat() = safeExecuteShellCommand("logcat -c", "Could not clear logcat on device: $serialNumber")
 
+    protected suspend fun disableAnimations() {
+        safeExecuteShellCommand(
+            "adb shell settings put global window_animation_scale 0.0",
+            "Could not change window_animation_scale on device: $serialNumber"
+        )
+        safeExecuteShellCommand(
+            "adb shell settings put global transition_animation_scale 0.0",
+            "Could not change transition_animation_scale on device: $serialNumber"
+        )
+        safeExecuteShellCommand(
+            "adb shell settings put global animator_duration_scale 0.0",
+            "Could not change animation_duration_scale on device: $serialNumber"
+        )
+    }
+
     protected suspend fun waitForRemoteFileSync(
         md5: String,
         remotePath: String

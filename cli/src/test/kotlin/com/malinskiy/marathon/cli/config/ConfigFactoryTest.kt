@@ -173,7 +173,8 @@ class ConfigFactoryTest {
                 videoConfiguration = VideoConfiguration(false, 1080, 1920, 2, 300),
                 screenshotConfiguration = ScreenshotConfiguration(false, 1080, 1920, 200)
             ),
-            15000L
+            15000L,
+            true
         )
     }
 
