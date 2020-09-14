@@ -1,7 +1,10 @@
 package com.malinskiy.marathon.execution
 
 import com.google.gson.annotations.SerializedName
+import com.malinskiy.marathon.log.MarathonLogging
 import com.malinskiy.marathon.test.Test
+
+private val log = MarathonLogging.logger {}
 
 class CompositionFilter(
     @SerializedName("filters") private val filters: List<TestFilter>,
@@ -25,7 +28,7 @@ class CompositionFilter(
     }
 
     private fun filterWithUnionOperation(tests: List<Test>): List<Test> {
-        return filters.fold(emptySet<Test>()) { acc, f ->
+        return  filters.fold(emptySet<Test>()) { acc, f ->
             acc.union(f.filter(tests))
         }.toList()
     }

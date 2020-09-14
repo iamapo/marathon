@@ -9,6 +9,7 @@ import com.malinskiy.marathon.exceptions.NoDevicesException
 import com.malinskiy.marathon.exceptions.NoTestCasesFoundException
 import com.malinskiy.marathon.execution.Configuration
 import com.malinskiy.marathon.execution.Scheduler
+import com.malinskiy.marathon.execution.TestFilter
 import com.malinskiy.marathon.execution.TestParser
 import com.malinskiy.marathon.execution.TestShard
 import com.malinskiy.marathon.execution.progress.ProgressReporter
@@ -138,12 +139,16 @@ class Marathon(
     }
 
     private fun applyTestFilters(parsedTests: List<Test>): List<Test> {
+        val filteredTests = mutableListOf<Test>()
         var tests = parsedTests.filter { test ->
             configuration.testClassRegexes.all { it.matches(test.clazz) }
         }
-        configuration.filteringConfiguration.whitelist.forEach { tests = it.filter(tests) }
+        log.info("Scheduling applyTestFilters ${tests.size} tests")
+        configuration.filteringConfiguration.whitelist.forEach {
+            filteredTests.addAll(it.filter(tests))
+            log.info("Scheduling applyTestFilters AddFilter${filteredTests.size} tests")}
         configuration.filteringConfiguration.blacklist.forEach { tests = it.filterNot(tests) }
-        return tests
+        return filteredTests.distinct()
     }
 
     private fun prepareTestShard(tests: List<Test>, analytics: Analytics): TestShard {
